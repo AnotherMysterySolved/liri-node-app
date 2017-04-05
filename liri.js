@@ -53,3 +53,18 @@ function getTweets() {
         }
     });
 };
+
+function searchSong() {
+spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(err, data) {
+    if ( err ) {
+        console.log('Error occurred: ' + err);
+        return;
+    }
+      console.log("\n", "---~~~Spotify Results~~~---");
+    // for (var i = 0; i < data.length; i++){
+      var path = data.tracks.items[0];
+      console.log("\n", 'Artist(s): ' + path.artists[0].name, "\n",'Album: ' + path.album.name, "\n", 'Song Name: ' + path.name, "\n",'Preview Link: ' + path.preview_url);
+    // }
+
+});
+};
