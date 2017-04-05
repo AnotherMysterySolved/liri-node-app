@@ -29,7 +29,7 @@ switch (action) {
         break;
 }
 
-//Get tweets
+//-----~~~~~getTweets function~~~~~-----
 function getTweets() {
     //pulling in keys for request
     var client = new twitter({
@@ -54,6 +54,7 @@ function getTweets() {
     });
 };
 
+//-----~~~~~searchSong function~~~~~-----
 function searchSong() {
 spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(err, data) {
     if ( err ) {
