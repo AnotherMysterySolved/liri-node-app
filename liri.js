@@ -11,6 +11,7 @@ var action = process.argv[2];
 var value = process.argv[3];
 
 //Switch-case to determine which function will run
+function runSwitch(){
 switch (action) {
     case "my-tweets":
         getTweets();
@@ -28,6 +29,20 @@ switch (action) {
         doThis();
         break;
 }
+}
+runSwitch();
+//-----~~~~~doThis function~~~~~-----
+function doThis(){
+// It's important to include the "utf8" parameter or the code will provide stream data (garbage)
+// The code will store the contents of the reading inside the variable "data"
+fs.readFile("random.txt", "utf8", function(error, data) {
+  // We will then re-display the content as an array for later use and split it with commas
+  var dataArray = data.split(",");
+  action = dataArray[0];
+  value = dataArray[1];
+  runSwitch();
+});
+};
 
 //-----~~~~~getTweets function~~~~~-----
 function getTweets() {
@@ -49,7 +64,8 @@ function getTweets() {
         }
         console.log("\n", "---~~~Last 20 Tweets~~~---");
         for (var i = 0; i < tweets.length; i++) {
-            console.log("\n", tweets[i].created_at, tweets[i].text); //'%j \n' took out the %j... still works
+            console.log(tweets[i].created_at, tweets[i].text);
+            //'%j \n' took out the %j... still works
         }
     });
 };
@@ -68,7 +84,7 @@ function searchSong() {
         console.log("\n", "---~~~Spotify Results~~~---");
         // for (var i = 0; i < data.length; i++){
         var path = data.tracks.items[0];
-        console.log("\n", 'Artist(s): ' + path.artists[0].name, "\n", 'Album: ' + path.album.name, "\n", 'Song Name: ' + path.name, "\n", 'Preview Link: ' + path.preview_url);
+        console.log('Artist(s): ' + path.artists[0].name, "\n", 'Album: ' + path.album.name, "\n", 'Song Name: ' + path.name, "\n", 'Preview Link: ' + path.preview_url);
         // }
     });
 };
@@ -80,6 +96,7 @@ function searchMovie() {
         // If there were no errors and the response code was 200 (i.e. the request was successful)
         if (!error && response.statusCode === 200) {
             var body = JSON.parse(body);
+            console.log("\n", "---~~~Movie Results~~~---");
             console.log("Title: " + body.Title);
             console.log("Year Released: " + body.Year);
             console.log("IMDB Rating: " + body.imdbRating);
@@ -87,7 +104,7 @@ function searchMovie() {
             console.log("Language(s): " + body.Language);
             console.log("Plot: " + body.Plot);
             console.log("Actors: " + body.Actors);
-            //console.log("Rotten Tomatos Rating: " + body.Ratings.Source);
+            console.log("Rotten Tomatos Rating: " + body.Ratings[1].Value);
         }
     });
 }
